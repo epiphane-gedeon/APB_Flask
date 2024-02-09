@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/style.css')}}">
+    <link rel="icon" href="{{url_for('static', filename='Images/logo-removebg-preview.png')}}" type="image/x-icon" sizes="64x64">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="{{url_for('index')}}"><img src="{{url_for('static', filename='Images/logo-removebg-preview.png')}}" alt=""></a></div>
+        <ul class="menu">
+            <li><a href="{{url_for('index')}}">Accueil</a></li>
+            <li><a href="{{url_for('produits')}}">Produits</a></li>
+            <li><a href="{{url_for('apropos')}}">A propos</a></li>
+            <li><a href="{{url_for('contact')}}">Contacts</a></li>
+        </ul>
+        <ul class="menuderoulant">
+            <li><a href="">Famille</a>
+                <ul class="sousmenu">
+                    <li><a href="">Jus</a></li>
+                    <li><a href="">Légumes</a></li>
+                    <li><a href="">Fruits</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="menu">
+            <li><a href="{{url_for('profil')}}" class="fa-solid fa-user"></a></li>
+            <li><a href="{{url_for('panier')}}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+        </ul>
+        <div class="box">
+            <div class="search-box">
+                <input type="text" placeholder="Search">
+                <button class="icon">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <button onclick="toggleDarkMode()" class="theme"><i class="fa-solid fa-sun"></i></button>
+    </nav>
+    {%block content%}
+    {%endblock%}
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Liens utiles</h3>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Accueil</a></li>
+                        <li><a href="{{ url_for('produits') }}">Produits</a></li>
+                        <li><a href="{{ url_for('apropos') }}">A propos</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contacts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Nous suivre</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contactez-nous</h3>
+                    <ul>
+                        <li><a href="mailto:contact@example.com">contact@example.com</a></li>
+                        <li><a href="tel:+123456789">+1 234-567-89</a></li>
+                        <li>123 Main Street, Anytown, USA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>© 2023 Example Company. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+<script>
+    var currentLocation = window.location.href;
+    var menuItems = document.querySelectorAll('.navbar .menu li a');
+    for (var i = 0; i < menuItems.length; i++) {
+    if (menuItems[i].href === currentLocation) {
+        menuItems[i].classList.add('active');
+    }
+
+
+    // Vérifiez si le mode sombre est activé
+    if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    }
+
+    // Activez ou désactivez le mode sombre
+    function toggleDarkMode() {
+    var body = document.querySelector('body');
+    body.classList.toggle('dark-mode');
+
+    // Stockez l'état du mode sombre dans le stockage local
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+    }
+    }
+}
+
+</script>

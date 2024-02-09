@@ -1,0 +1,79 @@
+<title>Gestion des produits</title>
+{%extends "baseAdmin.html"%}
+{%block content%}
+{{super()}}
+{%block header%}
+<div class="header-title">
+<span>Primary</span>
+<h2>Utilisateurs</h2>
+</div>
+{%endblock%}
+<div class="tabular-wrapper">
+    <h3 class="main-title">Utilisateurs enregistés</h3>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Profil</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Enregistré Le</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {%for user in users%}
+            {%if user.admin==False%}
+            <tr>
+                <td>
+                    <img src="{{url_for('static',filename='Images/'+user.image)}}" alt="">
+                </td>
+                <td>{{user.nom}}</td>
+                <td>{{user.prenom}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.created_at}}</td>
+                <td><form action="/updateUser/{{user.id}}"><button class="button">Modifier</button></form></td>
+                <td><form action="/deleteUser/{{user.id}}"><button class="trash"><i class="fa-solid fa-trash"></i></button></form></td>
+            </tr>
+            {%endif%}
+            {%endfor%}
+        </table>
+    </div>
+</div>
+
+
+<div class="tabular-wrapper">
+    <h3 class="main-title">Administrateurs enregistés</h3>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Profil</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Enregistré Le</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {%for user in users%}
+            {%if user.admin==True%}
+            <tr>
+                <td>
+                    <img src="{{url_for('static',filename='Images/'+user.image)}}" alt="">
+                </td>
+                <td>{{user.nom}}</td>
+                <td>{{user.prenom}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.created_at}}</td>
+                <td><button class="button">Modifier</button></td>
+                <td><form action="/deleteUser/{{user.id}}"><button class="trash"><i class="fa-solid fa-trash"></i></button></form></td>
+            </tr>
+            {%endif%}
+            {%endfor%}
+
+            
+        </table>
+        <form action="{{url_for('addAdmin')}}"><button class="command">Ajouter un administrateur</button></form>
+        
+    </div>
+</div>
+{%endblock%}

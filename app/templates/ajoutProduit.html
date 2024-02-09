@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/form.css')}}">
+<title>Ajouter un produit</title>
+{%extends "base.html"%}
+{%block content%}
+<main>
+    <section>
+        <div class="form-box">
+            <form method="post" action="/ajoutProduit" enctype="multipart/form-data">
+                {{form.hidden_tag()}}
+                <h2>Ajouter un Produit</h2>
+                <div class="file-box">
+                    {{form.file}}
+                    <label class="button-img" for="upload">Image du produit</label>
+                </div>
+                <div class="input-box">
+                    {{form.nom}}
+                    {{form.nom.label}}
+                </div>
+                <div class="input-box">
+                    {{form.description}}
+                    {{form.description.label}}
+                </div>
+                <div class="input-box">
+                    {{form.categorie}}
+                </div>
+                <div class="input-box">
+                    {{form.prix}}
+                    {{form.prix.label}}
+                </div>
+                {{form.submit}}
+            </form>
+        </div>
+    </section>
+</main>
+{%endblock%}

@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/form.css')}}">
+<title>Ajouter un produit</title>
+{%extends "base.html"%}
+{%block content%}
+<main>
+    <section>
+        <div class="form-box">
+            <form method="post" action="/updateCategorie/{{cat.id}}">
+                <h2>Ajouter une Catégorie</h2>
+                <div class="input-box">
+                    <input type="text" name="nom" value="{{cat.nom}}">
+                    <label for="nom">Nom</label>
+                </div>
+                <div class="msg-box">
+                    <label for="description">Description</label>
+                    <textarea name="description">{{cat.description}}</textarea>
+                </div>
+                <input type="submit"value="Modifier">
+            </form>
+        </div>
+    </section>
+</main>
+{%endblock%}

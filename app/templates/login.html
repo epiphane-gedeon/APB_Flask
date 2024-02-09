@@ -1,0 +1,78 @@
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/form.css')}}">
+<title>Login</title>
+{%extends "base.html"%}
+{%block content%}
+
+<section>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <h1>{{ message }}</h1>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    
+    <div class="form-box">
+        <form method="post">
+            {{form.hidden_tag()}}
+            <h2>Connexion</h2>
+            <div class="input-box">
+                {{form.email}}
+                {{form.email.label}}
+            </div>
+            <div class="input-box">
+                {{form.password}}
+                {{form.password.label}}
+            </div>
+            <div class="remember-forgot">
+                <label for="">{{form.remember_me}}Rester connecté</label>
+                <a href="">Mot de passe oublié ?</a>
+            </div>
+            {{form.submit}}
+            <div class="register-link">
+                <p>Pas encore de compte ? <a href="{{url_for('register')}}"> Inscription</a></p>
+            </div>
+        </form>
+    </div>
+    
+</section>
+
+<style>
+    .remember-forgot{
+        margin: -15px 0 15px;
+        font-size: .9em;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+    }
+    .remember-forgot label input{
+        margin-right: 3px;
+    }
+    .remember-forgot a{
+        color: #fff;
+        text-decoration: none;
+    }
+    .remember-forgot a:hover{
+        text-decoration: underline;
+        color: aqua;
+    }
+    .register-link{
+        font-size: .9em;
+        color: #fff;
+        text-align: center;
+        margin: 25px 0 10px;
+    }
+    .register-link p a{
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .register-link p a:hover{
+        text-decoration: underline;
+        color: aqua;
+    }
+</style>
+    
+{%endblock%}

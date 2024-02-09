@@ -1,0 +1,167 @@
+<title>Panier</title>
+<style>
+    .cart-page{
+    margin: 80px 300px 0 300px;
+    }
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .cart-info{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    th{
+        text-align: left;
+        padding: 5px;
+        color: #fff;
+        background: red;
+    }
+    td{
+        padding: 10px 5px;
+        max-width: 100px;
+        border-bottom: 2px solid black;/*white sombre*/ /*black clair*/
+        color: black;
+    }
+    .dark-mode td{
+        padding: 10px 5px;
+        max-width: 100px;
+        border-bottom: 2px solid white;/*white sombre*/ /*black clair*/
+        color: white;
+    }
+    .dark-mode td input{
+        width: 40px;
+        height: 30px;
+        padding: 5px;
+        background: none;
+        border-color: white;
+        color: white;
+        outline: none;
+    }
+    td input{
+        width: 40px;
+        height: 30px;
+        padding: 5px;
+        background: none;
+        border-color: black;
+        color: black;
+        outline: none;
+    }
+    td a{
+        color: red;
+        font-size: 12px;
+    }
+    td img{
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+    .total-price{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .total-price table{
+        margin-top: 5px;
+        border-top: 3px solid red;
+        width: 100%;
+        max-width: 400px;
+    }
+    td:last-child{
+        text-align: right;
+    }
+    th:last-child{
+        text-align: right;
+    }
+    .trash{
+        border: none;
+        background: none;
+        color: black;
+        cursor: pointer;
+    }
+    .dark-mode .trash{
+        border: none;
+        background: none;
+        color: white;
+        cursor: pointer;
+    }
+    .command{
+       border-color: black; /*white sombre black clair*/
+       background: none;
+       color: black;/*white sombre*/ /*black clair*/
+       border-radius: 25px;
+       height: 60px;
+       width: 150px;
+    }
+    .dark-mode .command{
+       border-color: white; /*white sombre black clair*/
+       background: none;
+       color: white;/*white sombre*/ /*black clair*/
+       border-radius: 25px;
+       height: 60px;
+       width: 150px;
+    }
+</style>
+{%extends "base.html"%}
+{%block content%}
+<main>
+<div class="small-container cart-page">
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Montant</th>
+        </tr>
+        <tr>
+            <td><button class="trash"><i class="fa-solid fa-trash"></i></button></td>
+            <td>
+                <div class="cart-info">
+                    <img src="{{url_for('static',filename='Images/Produits/jus/1.png')}}" alt="">
+                    <div>
+                        <p>Titre</p>
+                        <small>Prix: 25000</small>
+                    </div>
+                </div>
+            </td>
+            <td><input type="number" value="1"></td>
+            <td>5000</td>
+            
+        </tr>
+        <tr>
+            <td><button class="trash"><i class="fa-solid fa-trash"></i></button></td>
+            <td>
+                <div class="cart-info">
+                    <img src="{{url_for('static',filename='Images/5_profil.png')}}" alt="">
+                    <div>
+                        <p>Titre</p>
+                        <small>Prix: 25000</small>
+                    </div>
+                </div>
+            </td>
+            <td><input type="number" value="1"></td>
+            <td>5000</td>
+            
+        </tr>
+    </table>
+    <div class="total-price">
+        <table>
+            <tr>
+                <td>Prix hors taxe</td>
+                <td>10000</td>
+            </tr>
+            <tr>
+                <td>Taxe</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>10200</td>
+            </tr>
+            <tr></tr>
+        </table>
+    </div>
+    <button class="command">Commander</button>
+</div>
+</main>
+{%endblock%}

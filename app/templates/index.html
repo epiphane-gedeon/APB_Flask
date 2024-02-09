@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+    {% block content %}
+    <main>
+        <div class="banniere">
+            <h1>Bienvenue Chez Grandeur Nature le site de produits naturels bios</h1>
+            <p>Découvrez notre large gamme de produits, tous issus de l'agriculture biologique et respectueux de l'environnement.</p>
+            <div class="boutons">
+                <a href="{{ url_for('produits') }}" class="bouton">Voir les produits</a>
+                <a href="{{ url_for('contact') }}" class="bouton">Nous contacter</a>
+            </div>
+        </div>
+    </main>
+    <style>
+        .banniere {
+            background: no-repeat center center / cover url("../static/Images/banner.jpeg");
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+        .banniere h1 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+        .banniere p {
+            font-size: 1.5rem;
+            max-width: 40rem;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
+        .boutons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+        .bouton {
+            background-color: #fff;
+            color: #333;
+            border: none;
+            padding: 0.5rem 2rem;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+        }
+        .bouton:hover {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+    {% endblock %}
+    

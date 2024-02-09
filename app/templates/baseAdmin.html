@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/admin.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="{{url_for('static', filename='Images/logo-removebg-preview.png')}}" type="image/x-icon" sizes="64x64">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"><img src="{{url_for('static',filename='Images/logo-removebg-preview.png')}}" alt=""></div>
+        <ul class="menu">
+            <li>
+                <a href="{{url_for('admin')}}">
+                    <i class="fa-solid fa-table-columns"></i></i>
+                    <span>Tableau de bord</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url_for('adminUser')}}">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url_for('adminProduits')}}">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Produits</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url_for('adminCategorie')}}">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Catégories</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url_for('index')}}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Site</span>
+                </a>
+            </li>
+            <li class="logout">
+                <a href="logout/{{current_user.id}}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="main-content">
+        {%block content%}
+        <div class="header-wrapper">
+            {%block header%}
+            {%endblock%}
+            <div class="user-info">
+                <div class="box">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search">
+                        <button class="icon">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <img src="{{url_for('static',filename='Images/'+current_user.image)}}" alt="">
+                <button onclick="toggleDarkMode()" class="theme"><i class="fa-solid fa-sun"></i></button>
+            </div>
+        </div>
+            
+            {%endblock%}
+    </div>
+
+</body>
+</html>
+<script>
+    // Récupérez l'URL actuelle
+    var currentLocation = window.location.href;
+
+    // Sélectionnez tous les éléments <li> du menu
+    var menuItems = document.querySelectorAll('.sidebar .menu li');
+
+    // Parcourez les éléments <li> et ajoutez la classe 'active' à celui correspondant à l'URL actuelle
+    for (var i = 0; i < menuItems.length; i++) {
+        if (menuItems[i].querySelector('a').href === currentLocation) {
+            menuItems[i].classList.add('active');
+        }
+    }
+
+     if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    }
+
+    // Activez ou désactivez le mode sombre
+    function toggleDarkMode() {
+    var body = document.querySelector('body');
+    body.classList.toggle('dark-mode');
+
+    // Stockez l'état du mode sombre dans le stockage local
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+    }
+    }
+</script>

@@ -1,0 +1,114 @@
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/form.css')}}">
+<title>Register</title>
+{%extends "base.html"%}
+{%block content%}
+
+<section>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <h1>{{ message }}</h1>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    
+    <div class="form-box">
+        <form method="post" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+            <h2>Inscription</h2>
+            <div class="field"> 
+                <div class="input-box">
+                    {{form.nom}}
+                    {{form.nom.label}}
+                </div>
+                <div class="input-box">
+                    {{form.prenom}}
+                    {{form.prenom.label}}
+                </div>
+            </div>
+            <div class="input-box">
+                {{form.email}}
+                {{form.email.label}}
+            </div>
+            <div class="field">
+                <div class="input-box">
+                    {{form.password}}
+                    {{form.password.label}}
+                </div>
+                <div class="input-box">
+                    {{form.retypePassword}}
+                    {{form.retypePassword.label}}
+                </div>
+            </div>
+            <div class="file-box">
+                {{form.image}}
+                <label class="button-img" for="upload">Ajouter une photo de profil</label>
+            </div>
+            {{form.submit}}
+            <div class="login-link">
+                <p>Déjà un compte ?<a href="{{url_for('login')}}">Connexion</a></p>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    form{
+        width: 90%;
+        margin: 30px 0 30px;
+        
+    }
+    .field{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .field div{
+        display: flex;
+        flex-direction: column;
+        width: 49%;
+    }
+
+    .form-box{
+        width: 700px;
+    }
+
+    .remember-forgot{
+        margin: -15px 0 15px;
+        font-size: .9em;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+    }
+    .remember-forgot label input{
+        margin-right: 3px;
+    }
+    .remember-forgot a{
+        color: #fff;
+        text-decoration: none;
+    }
+    .remember-forgot a:hover{
+        text-decoration: underline;
+        color: aqua;
+    }
+    .login-link{
+        font-size: .9em;
+        color: #fff;
+        text-align: center;
+        margin: 25px 0 10px;
+    }
+    .login-link p a{
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .login-link p a:hover{
+        text-decoration: underline;
+        color: aqua;
+    }
+
+</style>
+    
+{%endblock%}

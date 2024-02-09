@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="post-text-box">
+        <h2>Qui Sommes-Nous ?</h2>
+        <p>Nous sommes une entreprise passionnée par les fruits et légumes frais. Notre mission est de...</p>
+        <p>Notre équipe est composée d'experts en agriculture, de nutritionnistes et de passionnés de bien-être.</p>
+    </div>
+
+    <div class="profile">
+        <img src="{{url_for('static',filename='Images/banner.jpeg')}}" alt="Notre Équipe">
+        <h3>Rencontrez Notre Équipe</h3>
+        <p>Nous sommes fiers de notre équipe dévouée qui travaille chaque jour pour vous offrir la meilleure qualité.</p>
+    </div>
+</div>
+<style>
+    /* styles.css */
+/* Navigation */
+nav {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+/* Section principale */
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.post-text-box {
+    flex: 1;
+    padding: 20px;
+}
+
+.profile {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+.profile img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Pied de page */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+  </style>
+{% endblock %}

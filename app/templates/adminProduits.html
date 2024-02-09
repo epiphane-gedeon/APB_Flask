@@ -1,0 +1,41 @@
+<title>Gestion des produits</title>
+{%extends "baseAdmin.html"%}
+{%block content%}
+{{super()}}
+{%block header%}
+<div class="header-title">
+<span>Primary</span>
+<h2>Dashboard</h2>
+</div>
+{%endblock%}
+<div class="tabular-wrapper">
+    <h3 class="main-title">Produits enregistrés</h3>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Catégorie</th>
+                <th>Stock</th>
+                <th>Prix</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+            {%for produit in produits%}
+            <tr>
+                <td>{{produit.nom}}</td>
+                <td>
+                        <img src="{{url_for('static',filename='Images/'+produit.image)}}" alt="">
+                </td>
+                <td>{{produit.Categorie.nom}}</td>
+                <td>150</td>
+                <td>{{produit.prix}} fr</td>
+                <td><form action="/updateProduct/{{produit.id}}"><button class="button">Modifier</button></form></td>
+                <td><form action="/deleteProduct/{{produit.id}}"><button class="trash"><i class="fa-solid fa-trash"></i></button></form></td>
+            </tr>
+            {%endfor%}
+        </table>
+        <form action="{{url_for('ajoutProduit')}}"><button class="command">Ajouter un produit</button></form>
+    </div>
+</div>
+{%endblock%}

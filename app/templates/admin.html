@@ -1,0 +1,103 @@
+<title>Tableau de bord</title>
+
+{%extends "baseAdmin.html"%}
+{%block content%}
+{{super()}}
+{%block header%}
+<div class="header-title">
+<span>Primary</span>
+<h2>Dashboard</h2>
+</div>
+{%endblock%}
+<div class="card-container">
+    <h1 class="main-title">Donnée du jour</h1>
+    <div class="card-wrapper">
+        <div class="payment-card">
+            <div class="card-header">
+                <div class="amount">
+                    <span class="title">Payment amount</span>
+                    <span class="amount-value">$500.00</span>
+                </div>
+                <i class="fas fa-dollar-sign icon"></i>
+            </div>
+            <span class="card-detail">**** **** **** 3484</span>
+        </div>
+
+        <div class="payment-card">
+            <div class="card-header">
+                <div class="amount">
+                    <span class="title">Payment amount</span>
+                    <span class="amount-value">$500.00</span>
+                </div>
+                <i class="fas fa-dollar-sign icon"></i>
+            </div>
+            <span class="card-detail">**** **** **** 3484</span>
+        </div>
+
+        <div class="payment-card">
+            <div class="card-header">
+                <div class="amount">
+                    <span class="title">Payment amount</span>
+                    <span class="amount-value">$500.00</span>
+                </div>
+                <i class="fas fa-dollar-sign icon"></i>
+            </div>
+            <span class="card-detail">**** **** **** 3484</span>
+        </div>
+
+    </div>
+    
+</div>
+<div class="tabular-wrapper">
+    <h3 class="main-title">Commandes effectuées</h3>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Client</th>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Montant</th>
+            </tr>
+            <tr>
+                <td>POULI</button></td>
+                <td>
+                    <div class="cart-info">
+                        <img src="{{url_for('static',filename='Images/Produits/jus/1.png')}}" alt="">
+                        <div>
+                            <p>Titre</p>
+                            <small>Prix: 25000</small>
+                        </div>
+                    </div>
+                </td>
+                <td>25</td>
+                <td>5000</td>
+                
+            </tr>
+            <tr>
+                <td>Manuella</td>
+                <td>
+                    <div class="cart-info">
+                        <img src="{{url_for('static',filename='Images/pagge_login_4.png')}}" alt="">
+                        <div>
+                            <p>Titre</p>
+                            <small>Prix: 25000</small>
+                        </div>
+                    </div>
+                </td>
+                <td>13</td>
+                <td>5000</td>
+                
+            </tr>
+        </table>
+        <div class="total-price">
+            <table>
+                
+                <tr>
+                    <td>Total</td>
+                    <td>10000</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

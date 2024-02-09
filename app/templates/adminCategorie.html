@@ -1,0 +1,35 @@
+<title>Gestion des produits</title>
+{%extends "baseAdmin.html"%}
+{%block content%}
+{{super()}}
+{%block header%}
+<div class="header-title">
+<span>Primary</span>
+<h2>Dashboard</h2>
+</div>
+{%endblock%}
+<div class="tabular-wrapper">
+    <h3 class="main-title">Catégories Enregistrées</h3>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Créateur</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+            {%for categorie in categories%}
+            <tr>
+                <td>POULI</td>
+                <td>{{categorie.nom}}</td>
+                <td>{{categorie.description}}</td>
+                <td><form action="/updateCategorie/{{categorie.id}}"><button class="button">Modifier</button></form></td>
+                <td><form action="/deleteCategorie/{{categorie.id}}"><button class="trash"><i class="fa-solid fa-trash"></i></button></form></td>
+            </tr>
+            {%endfor%}
+        </table>
+        <form action="{{url_for('categories')}}"><button class="command">Ajouter une catégorie</button></form>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,122 @@
+<title>Produits</title>
+<style>
+    .section_produits{
+    padding: 40px 5%;
+    }
+    .produits{
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+    }
+    .produits .carte{
+        width: 310px;
+        background: white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .dark-mode .produits .carte{
+        width: 310px;
+        background: #424144;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .produits .carte img{
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+    .produits .carte img{
+        height: 300px;
+        width: 100%;
+    }
+    .produits .carte .desc{
+        padding: 5px 20px;
+        opacity: 0.8;
+    }
+    .produits .carte .desc a{
+        text-decoration: none;
+        color: black;
+    }
+    .dark-mode .produits .carte .desc a{
+        text-decoration: none;
+        color: white;
+    }
+    .produits .carte .titre{
+        font-weight: 900;
+        font-size: 20px;
+        color: #424144;
+        padding: 0 20px;
+        text-align: center;
+    }
+    .dark-mode .produits .carte .titre{
+        font-weight: 900;
+        font-size: 20px;
+        color: white;
+        padding: 0 20px;
+        text-align: center;
+    }
+    .produits .carte .box{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+    .produits .carte .prix{
+        color: red;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .produits .carte .achat{
+        font-size: 13px;
+        font-weight: 900;
+        color: red;
+        padding: 10px 18px;
+        border-radius: 5px;
+    }
+    .produits .carte .box .achat:hover{
+        cursor: pointer;
+        background: black;
+        color: white;
+    }
+    .banniere{
+        background: no-repeat center center / cover url("../static/Images/page_login_3.png");
+    }
+    .dark-mode .banniere{
+        background: no-repeat center center / cover url("../static/Images/sombre.png");
+    }
+    h1{
+        font-size: 50px;
+        text-align: center;
+    }
+</style>
+{%extends "base.html"%}
+{%block content%}
+<main>
+<div class="banniere">
+    <h1>Accueil</h1>
+</div>
+<section class="section_produits">
+{%for categorie in categories%}
+    <h1>Nos {{categorie.nom}}</h1>
+    <div class="produits">
+        {%for produit in produits%}
+            <!-- {%if produit.Categorie.id==categorie.id%} -->
+                <div class="carte">
+                    <div class="img"><img src="{{url_for('static',filename='Images/'+produit.image)}}" alt=""></div>
+                    <hr>
+                    <div class="titre">{{produit.nom}}</div>
+                    <div class="desc"><a href="">{{produit.description}}</a></div>
+                    <div class="box">
+                        <div class="prix">{{produit.prix}} fr</div>
+                        <form action=""><button class="achat">Ajouter au panier</button></form>
+                    </div>
+                </div>
+            <!-- {%endif%} -->
+        {%endfor%}
+    </div>
+{%endfor%}
+    
+    
+</section>
+</main>
+{%endblock%}

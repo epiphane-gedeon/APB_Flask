@@ -1,0 +1,24 @@
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Style/form.css')}}">
+<title>Ajouter un produit</title>
+{%extends "base.html"%}
+{%block content%}
+<main>
+    <section>
+        <div class="form-box">
+            <form method="post">
+                {{form.hidden_tag()}}
+                <h2>Ajouter une Catégorie</h2>
+                <div class="input-box">
+                    {{form.nom}}
+                    {{form.nom.label}}
+                </div>
+                <div class="msg-box">
+                    {{form.description.label}}
+                    {{form.description}}
+                </div>
+                {{form.submit}}
+            </form>
+        </div>
+    </section>
+</main>
+{%endblock%}
