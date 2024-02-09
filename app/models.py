@@ -12,10 +12,7 @@ class Utilisateur(db.Model,UserMixin):
     admin =db.Column(db.Boolean,unique=False,nullable=False,default=False)
     created_at=db.Column(db.Date,default=datetime.datetime.today())
     produit=db.relationship('Produit',backref='Utilisateur')
-    contact=db.relationship('Contact',backref='Utilisateur')
-
-    def __repr__(self):
-        return f'User {self.nom}'
+    contact=db.relationship('Categorie',backref='Utilisateur')
     
 class Produit(db.Model,UserMixin):
     id=db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -27,15 +24,9 @@ class Produit(db.Model,UserMixin):
     user_id=db.Column(db.Integer, db.ForeignKey('utilisateur.id'))
     categorie=db.Column(db.Integer, db.ForeignKey('categorie.id'))
 
-class Contact(db.Model,UserMixin):
-    id=db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_email= db.Column(db.String(50),unique=True,nullable=False)
-    message= db.Column(db.String,unique=False,nullable=False)
-    created_at=db.Column(db.Date,default=datetime.datetime.today())
-    user_id=db.Column(db.Integer, db.ForeignKey('utilisateur.id'))
-
 class Categorie(db.Model,UserMixin):
     id=db.Column(db.Integer, primary_key=True, autoincrement=True)
     nom=db.Column(db.String(50),unique=True,nullable=False)
     description=db.Column(db.String,unique=False,nullable=False)
     produit=db.relationship('Produit',backref='Categorie')
+    user_id=db.Column(db.Integer, db.ForeignKey('utilisateur.id'))

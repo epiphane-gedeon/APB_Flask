@@ -26,7 +26,11 @@
             </li>
         </ul>
         <ul class="menu">
+            {%if current_user.admin%}
+            <li><a href="{{url_for('admin')}}" class="fa-solid fa-user"></a></li>
+            {%else%}
             <li><a href="{{url_for('profil')}}" class="fa-solid fa-user"></a></li>
+            {%endif%}
             <li><a href="{{url_for('panier')}}"><i class="fa-solid fa-cart-shopping"></i></a></li>
         </ul>
         <div class="box">

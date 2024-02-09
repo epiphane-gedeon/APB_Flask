@@ -15,7 +15,6 @@ def allowed_file(filename):
 def load_user(user_id):
     return Utilisateur.query.get(user_id)
 @app.route("/",methods=["POST","GET"])
-# @app.route("/index",methods=["POST","GET"])
 def index():
     return render_template("index.html")
 
@@ -25,7 +24,6 @@ def login():
     if form.validate_on_submit():
         email=form.email.data
         password=form.password.data
-        #remember=form.remember_me.data
         user=Utilisateur.query.filter_by(email=email).first()
         user_admin=Utilisateur.query.filter_by(email=email,admin=True).first()
         print(user)
@@ -230,8 +228,6 @@ def apropos():
 @app.route("/admin")
 def admin():
     return render_template("admin.html")
-# if __name__ == '__main__':
-#     app.run(debug=True)
 
 @app.route("/categories",methods=["POST","GET"])
 def categories():
@@ -269,17 +265,24 @@ def addAdmin():
         email=form.email.data
         file = request.files['file']
         if file.filename == '':
-            filename = 'profil.png'
+            imgVide=True
+        else:
+            imgVide=False
         if file and allowed_file(file.filename):
             filename = 'profil_'+secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         if retypePassword==password:
-            psw_hash=bcrypt.generate_password_hash(password).decode("utf8")
-            user=Utilisateur(nom=nom,prenom=prenom,email=email,mot_pass=psw_hash,image=filename,admin=True)
-            print(user)
+            if imgVide:
+                psw_hash=bcrypt.generate_password_hash(password).decode("utf8")
+                user=Utilisateur(nom=nom,prenom=prenom,email=email,mot_pass=psw_hash,image='profil.png',admin=True)
+            else:
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                psw_hash=bcrypt.generate_password_hash(password).decode("utf8")
+                user=Utilisateur(nom=nom,prenom=prenom,email=email,mot_pass=psw_hash,image=filename,admin=True)
+                print(user)
             db.session.add(user)
             db.session.commit()
+
             flash("Utilisateur enregistré avec succès")
             redirect(url_for('login'))
         else:
