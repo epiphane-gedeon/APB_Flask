@@ -114,6 +114,9 @@ width: 80px;
     width: 50px;
     background: red;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     line-height: 50px;
     color: #fff;
@@ -121,6 +124,12 @@ width: 80px;
     border-radius: 0 25px 25px 0;
     border: none;
     cursor: pointer;
+}
+.user-info img{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
 }
 .banniere {
 	min-height: 600px;

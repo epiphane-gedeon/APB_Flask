@@ -39,6 +39,11 @@
         </div>
         
         <button onclick="toggleDarkMode()" class="theme"><i class="fa-solid fa-sun"></i></button>
+        {%if current_user.is_authenticated%}
+        <div class="user-info">
+            <img src="{{url_for('static',filename='Images/'+current_user.image)}}" alt="">
+        </div>
+        {%endif%}
     </nav>
     {%block content%}
     {%endblock%}

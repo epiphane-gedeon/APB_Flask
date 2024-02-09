@@ -44,7 +44,6 @@ def login():
             flash("Vous êtes bien connecté")
             return redirect(url_for('admin'))
         login_user(user)
-        flash("Vous êtes bien connecté")
         return redirect(url_for('index'))
     
     return render_template("login.html",form=form)

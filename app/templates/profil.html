@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    <div class="header-wrapper">
+        <div class="user-info">
+            <div class="box">
+                <img src="{{url_for('static',filename='Images/'+current_user.image)}}" alt="">
+                <h1>{{current_user.nom}}  {{current_user.prenom}}</h1>
+            </div>  
+        </div>
+        <a href="logout/{{current_user.id}}">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+</div>
+<style>
+    .dark-mode  .main-content{
+    background: #111111;
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    min-height: 1080px;
+}
+.main-content{
+    position: relative;
+    background: #ebe9e9;
+    width: 100%;
+    padding: 1rem;
+    min-height: 1080px;
+}
+.header-wrapper img{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.header-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+.dark-mode .header-wrapper a{
+    color: #fff;
+}
+.header-wrapper a{
+    color: #000;
+}
+.dark-mode .header-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #424144;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+.user-info .box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+</style>
+{%endblock%}
