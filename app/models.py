@@ -28,5 +28,5 @@ class Categorie(db.Model,UserMixin):
     id=db.Column(db.Integer, primary_key=True, autoincrement=True)
     nom=db.Column(db.String(50),unique=True,nullable=False)
     description=db.Column(db.String,unique=False,nullable=False)
-    produit=db.relationship('Produit',backref='Categorie')
     user_id=db.Column(db.Integer, db.ForeignKey('utilisateur.id'))
+    produit=db.relationship('Produit',backref='Categorie')

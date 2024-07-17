@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        main{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .produit{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .dark-mode .produit{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background-color: #424144;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .produit .produit-info{
+            margin-left: 50px
+        }
+        .produit-info{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 300px;
+            width: 300px;
+            text-align: center;
+        }
+        .produit .produit-image img{
+            width: 400px;
+            border-radius: 10px;
+        }
+        .prix{
+            font-size: 20px;
+            color: red;
+            text-align: right;
+        }
+        .achat{
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            align-self: flex-end;
+        }
+        .achat:hover{
+            cursor: pointer;
+            background: black;
+            color: white;
+        }
+        .produit-info h2{
+            font-size: 30px;
+            /*color: white;*/
+            text-align:center;
+        }
+        .quantite{
+            width: 50px;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .commande {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Aligner le contenu de commande en bas */
+        }
+        .id{
+            display: none;
+        }
+    </style>
+    <main>
+        <div class="produit">
+            <div class="produit-image">
+                <img src="{{url_for('static', filename='Images/'+produit.image)}}" alt="{{produit.image}}">
+            </div>
+            <div class="produit-info">
+                <h2 class="id">{{produit.id}}</h2>
+                <h2 class="title">{{produit.nom}}</h2>
+                <p>{{produit.description}}</p>
+                <div class="commande">
+                    <p class="prix">{{produit.prix}}</p>
+                    <input type="number" name="quantite" id="quantite" class="quantite" value="1" min="1"><br>
+                    <button class="achat">Ajouter au panier</button>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélectionner le bouton achat
+            const boutonAchat = document.querySelector('.achat');
+        
+            // Ajouter un gestionnaire d'événements click au bouton
+            boutonAchat.addEventListener('click', function() {
+                // Ici, vous devez récupérer les valeurs du nom, prix, image, et quantité du produit
+                const nom = document.querySelector('.title').textContent// Remplacez par la manière dont vous récupérez ces valeurs
+                const prix = parseInt(document.querySelector('.prix').textContent)// Idem
+                const image = document.querySelector('.produit .produit-image img').alt// Idem
+                const quantite = parseInt(document.querySelector('.quantite').value) // Idem
+
+                //console.log(nom, prix, image, quantite);
+        
+                // Appeler la fonction ajouterProduitAuLocalStorage avec les valeurs récupérées
+                ajouterProduitAuLocalStorage(nom, prix, image, quantite);
+            });
+        });
+        // Fonction pour ajouter un produit au localStorage
+        function ajouterProduitAuLocalStorage(nom, prix, image, quantite) {
+            // Créer un objet produit
+            const produit = { nom, prix, image, quantite };
+
+            // Récupérer la liste existante de produits du localStorage
+            let produits = localStorage.getItem('produits')
+            produits = produits ? JSON.parse(produits) : []
+            
+            for (var i=0;i<produits.length;i++){
+                if (produits[i].nom === produit.nom){
+                    let a= produits[i].quantite
+                    a += produit.quantite
+                    produits[i].quantite= a
+                    localStorage.setItem('produits', JSON.stringify(produits))
+                    console.log(produits)
+                    return;
+                }
+            }
+            // Ajouter le nouveau produit à la liste
+            produits.push(produit)
+            console.log(produits)
+            // Sauvegarder la liste mise à jour dans le localStorage
+            localStorage.setItem('produits', JSON.stringify(produits))
+        }
+    </script>
+{%endblock%}

@@ -2,12 +2,6 @@
 {%extends "baseAdmin.html"%}
 {%block content%}
 {{super()}}
-{%block header%}
-<div class="header-title">
-<span>Primary</span>
-<h2>Dashboard</h2>
-</div>
-{%endblock%}
 <div class="tabular-wrapper">
     <h3 class="main-title">Catégories Enregistrées</h3>
     <div class="table-container">
@@ -21,7 +15,7 @@
             </tr>
             {%for categorie in categories%}
             <tr>
-                <td>POULI</td>
+                <td>{{categorie.Utilisateur.nom}} {{categorie.Utilisateur.prenom}}</td>
                 <td>{{categorie.nom}}</td>
                 <td>{{categorie.description}}</td>
                 <td><form action="/updateCategorie/{{categorie.id}}"><button class="button">Modifier</button></form></td>

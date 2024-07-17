@@ -1,5 +1,5 @@
 from app import app,db,bcrypt,login_manager,mail,ALLOWED_EXTENSIONS
-from flask import render_template,flash,redirect,url_for,request
+from flask import render_template,flash,redirect,url_for,request,jsonify,session
 from app.forms import LoginForm,RegisterForm,ProductForm,ContactForm,CategorieForm
 from app.models import Utilisateur,Produit,Categorie
 from flask_login import login_user,current_user,login_required, logout_user
@@ -106,7 +106,7 @@ def deleteProduct(id):
 def logout(id):
     user=Utilisateur.query.filter_by(id=id)
     logout_user()
-    return redirect(url_for('login'),flash('Bien déconnectés'))
+    return redirect(url_for('login'))
 
 @app.route("/updateUser/<int:id>",methods=["GET","POST"])
 def updateUser(id):
@@ -169,6 +169,11 @@ def produits():
     print(produit)
     return render_template("produits.html",produits=produit,categories=categories)
 
+@app.route("/produit/<int:id>",methods=["GET","POST"])
+def infoProd(id):
+    prod= Produit.query.get_or_404(id)
+    return render_template("infoProduit.html",produit=prod)
+
 @app.route("/ajoutProduit",methods=["POST","GET"])
 def ajoutProduit():
     form=ProductForm()
@@ -190,19 +195,33 @@ def ajoutProduit():
             flash("Le prix doit être supérieur à 0")
             redirect(url_for(ajoutProduit))
         
-        prod=Produit(nom=nom,image=filename,description=description,categorie=categorie,prix=prix)
-
+        prod=Produit(nom=nom,image=filename,description=description,categorie=categorie,prix=prix,user_id=current_user.id)
         db.session.add(prod)
         db.session.commit()
         flash("Produit ajouté")
         redirect(url_for('adminProduits'))
-        # print(prod)
     return render_template("ajoutProduit.html",form=form)
 
-@app.route("/panier")
+@app.route("/updatePanier", methods=["POST"])
+def updatePanier():
+    try:
+        data = request.get_json()
+        if data is None:
+            raise ValueError("No JSON data received")
+        session['panier'] = data
+        print("pan: ", session['panier'])
+        panier()
+        return jsonify({"status": "success", "panier": session['panier']})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 415
+
+@app.route("/panier", methods=["GET", "POST"])
 def panier():
+    panier = session.get('panier')
     if current_user.is_authenticated:
-        return render_template("panier.html")
+        print(panier)
+        print("panier")
+        return render_template("panier.html", panier=panier)
     else:
         return redirect(url_for('login'))
 
@@ -227,7 +246,7 @@ def apropos():
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
+    return render_template("admin.html",page="Dashboard")
 
 @app.route("/categories",methods=["POST","GET"])
 def categories():
@@ -236,7 +255,7 @@ def categories():
         nom=form.nom.data
         description=form.description.data
 
-        cat=Categorie(nom=nom,description=description)
+        cat=Categorie(nom=nom,description=description,user_id=current_user.id)
         db.session.add(cat)
         db.session.commit()
         flash("Catégorie créée")
@@ -245,14 +264,13 @@ def categories():
 
 @app.route("/adminProduits")
 def adminProduits():
-    categories = Categorie.query.order_by(Categorie.id).all()
     produit=Produit.query.join(Categorie).order_by(Produit.created_at)
-    return render_template("adminProduits.html",produits=produit,categories=categories)
+    return render_template("adminProduits.html",produits=produit,page="Produits")
 
 @app.route("/adminUser",methods=["GET","POST"])
 def adminUser():
     user=Utilisateur.query.all()
-    return render_template("adminUser.html",users=user)
+    return render_template("adminUser.html",users=user,page="Utilisateurs")
 
 @app.route("/addAdmin",methods=["POST","GET"])
 def addAdmin():
@@ -291,8 +309,8 @@ def addAdmin():
 
 @app.route("/adminCategorie")
 def adminCategorie():
-    categorie=Categorie.query.all()
-    return render_template("adminCategorie.html",categories=categorie)
+    categorie=Categorie.query.join(Utilisateur).order_by(Categorie.id)
+    return render_template("adminCategorie.html",categories=categorie,page="Categorie")
 
 @app.route("/profil")
 def profil():

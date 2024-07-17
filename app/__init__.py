@@ -1,4 +1,5 @@
 from flask import Flask
+# from flask_jsglue import JSGlue
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
@@ -17,6 +18,7 @@ login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_vew='login'
 bcrypt=Bcrypt(app)
+# jsglue = JSGlue(app)
 
 app.config['SECRET_KEY']="j-ITiFqDJMq2bqXLf3-DIg"
 app.config.from_object(Config)

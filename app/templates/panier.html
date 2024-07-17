@@ -101,6 +101,32 @@
        height: 60px;
        width: 150px;
     }
+    .quantity{
+        display: flex;
+    }
+    .dark-mode .quantity-value{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid white;
+        min-width: 100px;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .plus-minus{
+        border: none;
+        background: none;
+        color: black;
+        cursor: pointer;
+    }
+    .dark-mode .plus-minus{
+        border: 2px solid white;
+        background: none;
+        color: white;
+        cursor: pointer;
+        width:30px;
+    }
 </style>
 {%extends "base.html"%}
 {%block content%}
@@ -113,36 +139,30 @@
             <th>Quantité</th>
             <th>Montant</th>
         </tr>
+        {%for produit in panier%}
         <tr>
             <td><button class="trash"><i class="fa-solid fa-trash"></i></button></td>
             <td>
                 <div class="cart-info">
-                    <img src="{{url_for('static',filename='Images/Produits/jus/1.png')}}" alt="">
+                    <img src="{{url_for('static',filename='Images/'+produit.image)}}" alt="">
                     <div>
-                        <p>Titre</p>
-                        <small>Prix: 25000</small>
+                        <p>{{produit.nom}}</p>
+                        <small>Prix: {{produit.prix}} fr</small>
                     </div>
                 </div>
             </td>
-            <td><input type="number" value="1"></td>
-            <td>5000</td>
-            
-        </tr>
-        <tr>
-            <td><button class="trash"><i class="fa-solid fa-trash"></i></button></td>
             <td>
-                <div class="cart-info">
-                    <img src="{{url_for('static',filename='Images/5_profil.png')}}" alt="">
-                    <div>
-                        <p>Titre</p>
-                        <small>Prix: 25000</small>
+                <div class="quantity">
+                    <button class="plus-minus">-</button>
+                    <div class="quantity-value">
+                        {{produit.quantite}}
                     </div>
+                    <button class="plus-minus">+</button>
                 </div>
             </td>
-            <td><input type="number" value="1"></td>
-            <td>5000</td>
-            
+           <td>{{produit.prix*produit.quantite}}</td>
         </tr>
+        {%endfor%}
     </table>
     <div class="total-price">
         <table>
@@ -164,4 +184,29 @@
     <button class="command">Commander</button>
 </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer les données du local storage
+        let panier = JSON.parse(localStorage.getItem('produits'));
+
+        //location.href = Flask.url_for("panier", panier=panier);
+
+        // Si des données existent dans le local storage, les envoyer au serveur
+        if (panier) {
+            fetch('/updatePanier', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(panier),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => console.error('Error:', error));
+        }
+    });
+    
+</script>
 {%endblock%}

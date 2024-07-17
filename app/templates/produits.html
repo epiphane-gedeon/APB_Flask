@@ -17,7 +17,6 @@
     .dark-mode .produits .carte{
         width: 310px;
         background: #424144;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         border-radius: 10px;
         margin-bottom: 20px;
     }
@@ -32,14 +31,6 @@
     .produits .carte .desc{
         padding: 5px 20px;
         opacity: 0.8;
-    }
-    .produits .carte .desc a{
-        text-decoration: none;
-        color: black;
-    }
-    .dark-mode .produits .carte .desc a{
-        text-decoration: none;
-        color: white;
     }
     .produits .carte .titre{
         font-weight: 900;
@@ -88,6 +79,20 @@
         font-size: 50px;
         text-align: center;
     }
+    .info a{
+        font-size: 13;
+        text-decoration: none;
+        color: black;
+    }
+    .dark-mode .info a{
+        color: white;
+    }
+    .info i{
+        font-size: 13;
+    }
+    .info a:hover{
+        color: red;
+    }
 </style>
 {%extends "base.html"%}
 {%block content%}
@@ -105,10 +110,11 @@
                     <div class="img"><img src="{{url_for('static',filename='Images/'+produit.image)}}" alt=""></div>
                     <hr>
                     <div class="titre">{{produit.nom}}</div>
-                    <div class="desc"><a href="">{{produit.description}}</a></div>
+                    <div class="desc">{{produit.description}}</div>
                     <div class="box">
                         <div class="prix">{{produit.prix}} fr</div>
-                        <form action=""><button class="achat">Ajouter au panier</button></form>
+                        <!--form action=""><button class="achat">Ajouter au panier</button></form-->
+                        <div class="info"><a href="/produit/{{produit.id}}">Plus d'infos <i class="fa-solid fa-arrow-right"></i></a></div>
                     </div>
                 </div>
             <!-- {%endif%} -->
