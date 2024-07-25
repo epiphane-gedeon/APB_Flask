@@ -9,6 +9,7 @@
  .dark-mode {
     background: #111111; /* Remplace var(--bg-color) */
     color: #fff; /* Remplace var(--text-color) */
+    transition: 0.5s;
 }
 main{
     min-height: 780px;
@@ -136,7 +137,7 @@ width: 80px;
 	/* background: no-repeat center center / cover url("../Images/accueil.png"); */
 }
 footer {
-    background-color: #333;
+    background-color: #000;
     color: #fff;
     padding: 40px 0;
 }
@@ -147,6 +148,10 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.footer-logo img {
+    width: 150px;
 }
 
 .footer-content {
@@ -161,7 +166,7 @@ footer {
 }
 
 .footer-section h3 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
     color: #fff;
@@ -178,13 +183,14 @@ footer {
 }
 
 .footer-section a {
-    color: #ccc;
+    color: white;
+    font-size: 17px;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer-section a:hover {
-    color: #fff;
+    color: red;
 }
 
 .footer-copyright {
@@ -192,4 +198,8 @@ footer {
     margin-top: 20px;
     font-size: 14px;
     color: #ccc;
+    border-top: solid 1px #fff;
+}
+.footer-copyright p {
+    margin-top: 10px;
 }

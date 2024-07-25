@@ -1,6 +1,6 @@
 from app import app,db,bcrypt,login_manager,mail,ALLOWED_EXTENSIONS
 from flask import render_template,flash,redirect,url_for,request,jsonify,session
-from app.forms import LoginForm,RegisterForm,ProductForm,ContactForm,CategorieForm
+from app.forms import LoginForm,RegisterForm,ProductForm,ContactForm,CategorieForm,CartForm
 from app.models import Utilisateur,Produit,Categorie
 from flask_login import login_user,current_user,login_required, logout_user
 from flask_mail import Message
@@ -16,7 +16,8 @@ def load_user(user_id):
     return Utilisateur.query.get(user_id)
 @app.route("/",methods=["POST","GET"])
 def index():
-    return render_template("index.html")
+    categories = Categorie.query.all()
+    return render_template("index.html",categories=categories)
 
 @app.route("/login",methods=["POST","GET"])
 def login():
@@ -164,15 +165,58 @@ def updateProduct(id):
 
 @app.route("/produits")
 def produits():
+    categorie_nom = request.args.get('categorie', None)
     categories = Categorie.query.order_by(Categorie.id).all()
-    produit=Produit.query.join(Categorie).all()
-    print(produit)
-    return render_template("produits.html",produits=produit,categories=categories)
+    if categorie_nom:
+        produit = Produit.query.join(Categorie).filter(Categorie.nom == categorie_nom).all()
+    else:
+        produit = Produit.query.join(Categorie).all()
+    return render_template("produits.html",produits=produit,categories=categories,categorie_nom=categorie_nom)
+
+# @app.route("/produits")
+# def produits():
+#     categorie_nom = request.args.get('categorie', None)  # Récupère le paramètre 'categorie' ou None si non présent
+#     if categorie_nom:
+#         # Filtrer les produits par nom de catégorie
+#         produit = Produit.query.join(Categorie).filter(Categorie.nom == categorie_nom).all()
+#     else:
+#         # Aucun nom de catégorie fourni, retourner tous les produits
+#         produit = Produit.query.join(Categorie).all()
+    
+#     categories = Categorie.query.order_by(Categorie.id).all()
+#     return render_template("produits.html", produits=produit, categories=categories)
 
 @app.route("/produit/<int:id>",methods=["GET","POST"])
 def infoProd(id):
     prod= Produit.query.get_or_404(id)
-    return render_template("infoProduit.html",produit=prod)
+    form=CartForm()
+    if form.validate_on_submit():
+        quantite=form.quantite.data
+        nom=prod.nom
+        prix=prod.prix
+        image=prod.image
+        produit={
+            "nom":nom,
+            "prix":prix,
+            "image":image,
+            "quantite":quantite,
+            "user_id":current_user.id
+        }
+        panier=session.get('panier', [])
+        for produits in panier:
+            if (produits["nom"] == produit["nom"] and produits["user_id"]==produit["user_id"]):
+                a= produits["quantite"]
+                a += produit["quantite"]
+                produits["quantite"]= a
+                print("produit: ",produits)
+                session['panier'] = panier
+                print("panier: ",session['panier'])
+                return render_template("infoProduit.html",produit=prod,form=form)
+        panier.append(produit)
+        session['panier'] = panier
+        print(session['panier'])
+        
+    return render_template("infoProduit.html",produit=prod,form=form)
 
 @app.route("/ajoutProduit",methods=["POST","GET"])
 def ajoutProduit():
@@ -202,28 +246,59 @@ def ajoutProduit():
         redirect(url_for('adminProduits'))
     return render_template("ajoutProduit.html",form=form)
 
-@app.route("/updatePanier", methods=["POST"])
-def updatePanier():
-    try:
-        data = request.get_json()
-        if data is None:
-            raise ValueError("No JSON data received")
-        session['panier'] = data
-        print("pan: ", session['panier'])
-        panier()
-        return jsonify({"status": "success", "panier": session['panier']})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 415
+# @app.route("/updatePanier", methods=["POST"])
+# def updatePanier():
+#     try:
+#         data = request.get_json()
+#         if data is None:
+#             raise ValueError("No JSON data received")
+#         session['panier'] = data
+#         print("pan: ", session['panier'])
+#         print("type pan: ",type(session['panier']))
+#         return jsonify({"status": "success", "panier": session['panier']})
+#     except Exception as e:
+#         return jsonify({"status": "error", "message": str(e)}), 415
 
 @app.route("/panier", methods=["GET", "POST"])
 def panier():
-    panier = session.get('panier')
     if current_user.is_authenticated:
-        print(panier)
-        print("panier")
-        return render_template("panier.html", panier=panier)
+        panier = session['panier']
+        montant=0
+        for produits in panier:
+            montant+=produits["prix"]*produits["quantite"]
+        taxe=int(montant*0.20)
+        return render_template("panier.html", panier=panier,montant=montant,taxe=taxe)
     else:
         return redirect(url_for('login'))
+    
+@app.route("/deletePanier/<string:nom>")
+def deletePanier(nom):
+    panier=session.get('panier', [])
+    for produits in panier:
+        if (produits["nom"] == nom and produits["user_id"]==current_user.id):
+            panier.remove(produits)
+            session['panier'] = panier
+            return redirect(url_for('panier'))
+
+@app.route("/minusPanier/<string:nom>")
+def minusPanier(nom):
+    panier=session.get('panier', [])
+    for produits in panier:
+        if (produits["nom"] == nom and produits["user_id"]==current_user.id):
+            produits["quantite"]-=1
+            if produits["quantite"] == 0:
+                panier.remove(produits)
+            session['panier'] = panier
+            return redirect(url_for('panier'))
+        
+@app.route("/plusPanier/<string:nom>")
+def plusPanier(nom):
+    panier=session.get('panier', [])
+    for produits in panier:
+        if (produits["nom"] == nom and produits["user_id"]==current_user.id):
+            produits["quantite"]+=1
+            session['panier'] = panier
+            return redirect(url_for('panier'))
 
 @app.route("/contact")
 def contact():

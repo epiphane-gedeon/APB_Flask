@@ -42,7 +42,7 @@
             </div>
         </div>
         
-        <button onclick="toggleDarkMode()" class="theme"><i class="fa-solid fa-sun"></i></button>
+        <button onclick="toggleDarkMode()" class="theme"><i class=" icon-theme fa-solid fa-sun"></i></button>
         {%if current_user.is_authenticated%}
         <div class="user-info">
             <img src="{{url_for('static',filename='Images/'+current_user.image)}}" alt="">
@@ -54,6 +54,7 @@
     <footer>
         <div class="container">
             <div class="footer-content">
+                <div class="footer-logo"><a href="{{url_for('index')}}"><img src="{{url_for('static', filename='Images/logo-removebg-preview.png')}}" alt=""></a></div>
                 <div class="footer-section">
                     <h3>Liens utiles</h3>
                     <ul>
@@ -80,9 +81,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="footer-copyright">
-                <p>© 2023 Example Company. Tous droits réservés.</p>
-            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2023 Example Company. Tous droits réservés.</p>
         </div>
     </footer>
 </body>
@@ -98,19 +99,27 @@
 
     // Vérifiez si le mode sombre est activé
     if (localStorage.getItem('darkMode') === 'enabled') {
-    document.body.classList.add('dark-mode');
+        document.body.classList.add('dark-mode')
     }
 
     // Activez ou désactivez le mode sombre
     function toggleDarkMode() {
-    var body = document.querySelector('body');
+    let body = document.querySelector('body');
+    let theme = document.querySelector('.icon-theme');
     body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+        theme.classList.remove('fa-moon');
+        theme.classList.add('fa-sun');
+    } else {
+        theme.classList.remove('fa-sun');
+        theme.classList.add('fa-moon');
+    }
 
     // Stockez l'état du mode sombre dans le stockage local
     if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('darkMode', 'enabled');
+        localStorage.setItem('darkMode', 'enabled')
     } else {
-        localStorage.setItem('darkMode', 'disabled');
+        localStorage.setItem('darkMode', 'disabled')
     }
     }
 }

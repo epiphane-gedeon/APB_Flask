@@ -104,6 +104,16 @@
     .quantity{
         display: flex;
     }
+    .quantity-value{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid black;
+        min-width: 100px;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
     .dark-mode .quantity-value{
         display: flex;
         justify-content: center;
@@ -115,17 +125,16 @@
         padding-right: 20px;
     }
     .plus-minus{
-        border: none;
+        border: 2px solid black;
         background: none;
         color: black;
         cursor: pointer;
+        width:30px;
+        height: 35px;
     }
     .dark-mode .plus-minus{
         border: 2px solid white;
-        background: none;
         color: white;
-        cursor: pointer;
-        width:30px;
     }
 </style>
 {%extends "base.html"%}
@@ -140,43 +149,45 @@
             <th>Montant</th>
         </tr>
         {%for produit in panier%}
-        <tr>
-            <td><button class="trash"><i class="fa-solid fa-trash"></i></button></td>
-            <td>
-                <div class="cart-info">
-                    <img src="{{url_for('static',filename='Images/'+produit.image)}}" alt="">
-                    <div>
-                        <p>{{produit.nom}}</p>
-                        <small>Prix: {{produit.prix}} fr</small>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="quantity">
-                    <button class="plus-minus">-</button>
-                    <div class="quantity-value">
-                        {{produit.quantite}}
-                    </div>
-                    <button class="plus-minus">+</button>
-                </div>
-            </td>
-           <td>{{produit.prix*produit.quantite}}</td>
-        </tr>
+            {%if produit.user_id==current_user.id%}
+                <tr>
+                    <td><form action="/deletePanier/{{produit.nom}}"><button class="trash"><i class="fa-solid fa-trash"></i></button></form></td>
+                    <td>
+                        <div class="cart-info">
+                            <img src="{{url_for('static',filename='Images/'+produit.image)}}" alt="">
+                            <div>
+                                <p>{{produit.nom}}</p>
+                                <small>Prix: {{produit.prix}} fr</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="quantity">
+                            <form action="/minusPanier/{{produit.nom}}"><button class="plus-minus">-</button></form>
+                            <div class="quantity-value">
+                                {{produit.quantite}}
+                            </div>
+                            <form action="/plusPanier/{{produit.nom}}"><button class="plus-minus">+</button></form>
+                        </div>
+                    </td>
+                <td>{{produit.prix*produit.quantite}} fr</td>
+                </tr>
+            {%endif%}
         {%endfor%}
     </table>
     <div class="total-price">
         <table>
             <tr>
                 <td>Prix hors taxe</td>
-                <td>10000</td>
+                <td>{{montant}} fr</td>
             </tr>
             <tr>
                 <td>Taxe</td>
-                <td>200</td>
+                <td>{{taxe}} fr</td>
             </tr>
             <tr>
                 <td>Total</td>
-                <td>10200</td>
+                <td>{{montant+taxe}} fr</td>
             </tr>
             <tr></tr>
         </table>
@@ -184,10 +195,11 @@
     <button class="command">Commander</button>
 </div>
 </main>
-<script>
+<!--script>
     document.addEventListener('DOMContentLoaded', function() {
         // Récupérer les données du local storage
         let panier = JSON.parse(localStorage.getItem('produits'));
+        console.log(panier);
 
         //location.href = Flask.url_for("panier", panier=panier);
 
@@ -208,5 +220,5 @@
         }
     });
     
-</script>
+</script-->
 {%endblock%}

@@ -45,3 +45,7 @@ class CategorieForm(FlaskForm):
     nom=StringField('Nom',validators=[DataRequired()])
     description=TextAreaField('Description',validators=[DataRequired()])
     submit=SubmitField('Ajouter')
+
+class CartForm(FlaskForm):
+    quantite=IntegerField('Quantite',validators=[DataRequired()],render_kw={'value': 1,'min': 1,'class':'quantite'})
+    submit=SubmitField('Ajouter au panier',render_kw={'class':'achat'})

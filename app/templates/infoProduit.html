@@ -77,6 +77,11 @@
         .id{
             display: none;
         }
+        form{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
     <main>
         <div class="produit">
@@ -89,14 +94,19 @@
                 <p>{{produit.description}}</p>
                 <div class="commande">
                     <p class="prix">{{produit.prix}}</p>
-                    <input type="number" name="quantite" id="quantite" class="quantite" value="1" min="1"><br>
-                    <button class="achat">Ajouter au panier</button>
+                    <form method="post" action="">
+                        {{form.hidden_tag()}}
+                        {{form.quantite}}
+                        {{form.submit}}
+                    </form>
+                    <!--input type="number" name="quantite" id="quantite" class="quantite" value="1" min="1">
+                    <button class="achat">Ajouter au panier</button-->
                 </div>
                 
             </div>
         </div>
     </main>
-    <script>
+    <!--script>
         document.addEventListener('DOMContentLoaded', function() {
             // Sélectionner le bouton achat
             const boutonAchat = document.querySelector('.achat');
@@ -108,11 +118,10 @@
                 const prix = parseInt(document.querySelector('.prix').textContent)// Idem
                 const image = document.querySelector('.produit .produit-image img').alt// Idem
                 const quantite = parseInt(document.querySelector('.quantite').value) // Idem
-
-                //console.log(nom, prix, image, quantite);
-        
+         
                 // Appeler la fonction ajouterProduitAuLocalStorage avec les valeurs récupérées
                 ajouterProduitAuLocalStorage(nom, prix, image, quantite);
+                envoyerProduitAuPanier()
             });
         });
         // Fonction pour ajouter un produit au localStorage
@@ -135,10 +144,31 @@
                 }
             }
             // Ajouter le nouveau produit à la liste
-            produits.push(produit)
+            produits.pop(produit)
             console.log(produits)
             // Sauvegarder la liste mise à jour dans le localStorage
             localStorage.setItem('produits', JSON.stringify(produits))
         }
-    </script>
+        function envoyerProduitAuPanier(){
+            // Récupérer les données du local storage
+            let panier = JSON.parse(localStorage.getItem('produits'));
+            console.log(panier);
+
+            // Si des données existent dans le local storage, les envoyer au serveur
+            if (panier) {
+                fetch('/updatePanier', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(panier),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => console.error('Error:', error));
+            }
+        }
+    </script-->
 {%endblock%}

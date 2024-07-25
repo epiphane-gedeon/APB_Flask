@@ -4,8 +4,11 @@
     padding: 40px 5%;
     }
     .produits{
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+        /*display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(320px,1fr));*/
+
+        display: flex;
+        justify-content: space-around;
     }
     .produits .carte{
         width: 310px;
@@ -79,6 +82,9 @@
         font-size: 50px;
         text-align: center;
     }
+    .info{
+        
+    }
     .info a{
         font-size: 13;
         text-decoration: none;
@@ -101,26 +107,44 @@
     <h1>Accueil</h1>
 </div>
 <section class="section_produits">
-{%for categorie in categories%}
-    <h1>Nos {{categorie.nom}}</h1>
-    <div class="produits">
-        {%for produit in produits%}
-            <!-- {%if produit.Categorie.id==categorie.id%} -->
+    {%if categorie_nom%}
+        <h1>Nos {{categorie_nom}}</h1>
+        <div class="produits">
+            {%for produit in produits%}
                 <div class="carte">
                     <div class="img"><img src="{{url_for('static',filename='Images/'+produit.image)}}" alt=""></div>
-                    <hr>
+                    
                     <div class="titre">{{produit.nom}}</div>
                     <div class="desc">{{produit.description}}</div>
                     <div class="box">
                         <div class="prix">{{produit.prix}} fr</div>
-                        <!--form action=""><button class="achat">Ajouter au panier</button></form-->
                         <div class="info"><a href="/produit/{{produit.id}}">Plus d'infos <i class="fa-solid fa-arrow-right"></i></a></div>
                     </div>
                 </div>
-            <!-- {%endif%} -->
+            {%endfor%}
+        </div>
+    {%else%}
+        {%for categorie in categories%}
+        <h1>Nos {{categorie.nom}}</h1>
+        <div class="produits">
+            {%for produit in produits%}
+                <!-- {%if produit.Categorie.id==categorie.id%} -->
+                    <div class="carte">
+                        <div class="img"><img src="{{url_for('static',filename='Images/'+produit.image)}}" alt=""></div>
+                        
+                        <div class="titre">{{produit.nom}}</div>
+                        <div class="desc">{{produit.description}}</div>
+                        <div class="box">
+                            <div class="prix">{{produit.prix}} fr</div>
+                            <!--form action=""><button class="achat">Ajouter au panier</button></form-->
+                            <div class="info"><a href="/produit/{{produit.id}}">Plus d'infos <i class="fa-solid fa-arrow-right"></i></a></div>
+                        </div>
+                    </div>
+                <!-- {%endif%} -->
+            {%endfor%}
+        </div>
         {%endfor%}
-    </div>
-{%endfor%}
+    {%endif%}
     
     
 </section>
